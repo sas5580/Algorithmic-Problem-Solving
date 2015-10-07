@@ -1,0 +1,70 @@
+// Langauge: C++
+// Problem Page: http://wcipeg.com/problem/ccc11s2p2
+
+// This problem, along with Breadth-First-Search, involves a weighted undirected graph, along with a added restriction, sunlight
+
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+struct edge{
+    int to,w,sun;
+    };
+
+int sm,n,e,a,b,c,d,i,v,w,s,st,u;
+vector < edge > g[1601];
+int dp[1605][3605];
+queue <int> q;
+bool flag[1605];
+
+int main() {
+    //freopen("DATA.txt","r",stdin);
+    scanf("%d%d%d",&sm,&n,&e);
+    edge tmp;
+    for (i=0;i<e;i++){
+        scanf("%d%d%d%d",&a,&b,&c,&d);
+        tmp.to = b;
+        tmp.w = c;
+        tmp.sun = d*c;
+        g[a].push_back(tmp);
+        tmp.to = a;
+        g[b].push_back(tmp);
+
+        }
+
+    for (i=0;i<n;i++){
+        for (int j=0;j<=sm;j++){
+            dp[i][j] = 1e9;
+            }
+        }
+    dp[0][0] = 0;
+    q.push(0);
+
+    while (!q.empty()){
+        u = q.front();
+        flag[u] = false;
+        q.pop();
+        for (i=0;i<g[u].size();i++){
+            tmp = g[u][i];
+            for (int j=0; j<=sm-tmp.sun;j++){
+                if (dp[u][j] + tmp.w < dp[tmp.to][j+tmp.sun]){
+                    dp[tmp.to][j+tmp.sun] = dp[u][j] + tmp.w;
+                    if (!flag[tmp.to]){
+                        q.push(tmp.to);
+                        flag[tmp.to] = true;
+                        }
+                    }
+                }
+            }
+        }
+    int ans = 1e9;
+    for (i=0;i<=sm;i++){
+        ans = min(ans,dp[n-1][i]);
+        }
+    if (ans==1e9) ans=-1;
+    cout<<ans;
+
+}
