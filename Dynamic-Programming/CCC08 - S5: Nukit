@@ -1,0 +1,67 @@
+// Language: C++
+// Problem Page: http://wcipeg.com/problem/ccc08s5
+
+//This problem, along with dynamic prrogramming, involves game thery as well
+
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <string.h>
+
+using namespace std;
+
+int n,a,b,c,d,i,dp[35][35][35][35][2],ans;
+
+int q(int a,int b,int c,int d, int p){
+    int &ans=dp[a][b][c][d][p];
+
+    if ((a<2 && b<1 && d<2) && (a<1 && b<1 && c<1 && d<1) && (c<2 && d<1) && (b<3) && (a<1 && b<1)){
+        return ans=p;
+    }
+
+    if (ans!=-1) return ans;
+
+    vector <int> pos;
+    if (a>1 && b>0 & d>1){
+        pos.push_back(q(a-2,b-1,c,d-2,!p));
+    }
+    if (a>0 && b>0 && c>0 && d>0){
+        pos.push_back(q(a-1,b-1,c-1,d-1,!p));
+    }
+    if (c>1 && d>0){
+        pos.push_back(q(a,b,c-2,d-1,!p));
+    }
+    if (b>2){
+        pos.push_back(q(a,b-3,c,d,!p));
+    }
+    if (a>0 && d>0){
+        pos.push_back(q(a-1,b,c,d-1,!p));
+    }
+
+    if (p){
+        for (i=0;i<pos.size();i++){
+            if (!pos[i]) return ans=0;
+        }
+        return ans=1;
+    }
+
+    else{
+        for (i=0;i<pos.size();i++){
+            if (pos[i]) return ans=1;
+        }
+        return ans=0;
+    }
+}
+
+int main(){
+    //freopen("DATA.txt","r",stdin);
+    scanf("%d",&n);
+    while (n--){
+        scanf("%d%d%d%d",&a,&b,&c,&d);
+        memset(dp,-1,sizeof dp);
+        if (q(a,b,c,d,0)){
+            printf("Patrick\n");
+        }
+        else printf("Roland\n");
+    }
+}
