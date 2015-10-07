@@ -1,4 +1,4 @@
-# Language: Python
+# Language: Python 2
 # Problem page: http://wcipeg.com/submissions/src/183312
 
 n = input()
