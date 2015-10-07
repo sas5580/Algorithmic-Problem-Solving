@@ -1,3 +1,6 @@
+# Language: Python
+# Problem page: http://wcipeg.com/submissions/src/183312
+
 n = input()
 g = [input() for i in xrange(n)]
 dp = [0 for i in xrange(n)]
