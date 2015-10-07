@@ -1,0 +1,24 @@
+# Language: Python 2
+# Problem Page: http://wcipeg.com/problem/cchange
+
+import sys
+#sys.stdin = open("DATA.txt",'r')
+
+sys.setrecursionlimit(1000000000)
+def q(amt):
+    if amt == 0: return 0
+    if dp[amt] != -1: return dp[amt]
+    ans = 1e319
+    for i in c:
+        if amt>=i: ans = min(ans,1+q(amt-i))
+    dp[amt] = ans
+    return dp[amt]
+    
+
+
+x = int(raw_input())
+n = int(raw_input())
+c = [int(raw_input()) for i in xrange(n)]
+dp = [-1 for i in xrange(x+5)]
+
+print q(x)
