@@ -1,0 +1,73 @@
+// Language: C++
+// Problem Page: http://wcipeg.com/problem/ccc12s2p2
+
+#include <iostream>
+#include <vector>
+#include <climits>
+#include <queue>
+#include <cstdio>
+
+using namespace std;
+
+int main(){ 
+
+    int n,m,i,a,s,df,inf;    
+    inf = INT_MAX;    
+    cin>>n>>m;   
+    vector<vector<vector<int> > > g;
+    vector<vector<int> > ng;
+    for (i=0;i<n+1;i++){       
+        g.push_back(ng);    }
+    
+    for (i=0;i<m;i++){
+       cin>>a>>s>>df;
+       vector <int> sd;
+       sd.push_back(s);
+       sd.push_back(df);
+       g[a].push_back(sd);
+    }
+    vector<int> d;
+    vector<int> sd; 
+    d.push_back(0);
+    d.push_back(0);
+    for (i=0;i<(n-1);i++){
+        d.push_back(inf);
+    }
+    sd = d;
+    sd[1] = inf;
+   
+    queue<int> q;
+    q.push(1);
+   
+    while (!q.empty()){
+       int u = q.front();
+       q.pop();
+       for (i=0;i<g[u].size();i++) {
+           int v=g[u][i][0];
+           int w=g[u][i][1];
+           if (d[u]+w < d[v]){
+               sd[v] = d[v];
+               d[v] = d[u] + w;
+               q.push(v);             
+           }
+           else if (d[u]+w < sd[v] && d[u]+w > d[v]){
+               sd[v] = d[u] + w;
+               q.push(v);
+           }
+           else if (sd[u]+w < sd[v]){
+               sd[v] = sd[u] + w;
+               q.push(v);
+           }
+       }
+       
+    }
+    
+    if (sd[sd.size()-1] == inf) {
+       cout<<-1;      
+    }
+    else{
+       cout<<sd[sd.size()-1];
+    } 
+   
+    return 0;
+}
