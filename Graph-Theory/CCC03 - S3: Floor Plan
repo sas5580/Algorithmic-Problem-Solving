@@ -1,0 +1,62 @@
+# Language: Python 2
+# Problem Page: http://wcipeg.com/problem/ccc03s3
+
+f = input()
+r = input()
+c = input()
+
+flag = [[False for i in xrange(c)] for i in xrange(r)]
+floor = []
+pos = [[1,0],[0,-1],[-1,0],[0,1]]
+for i in xrange(r):
+    floor.append(raw_input())
+
+rooms = []
+for y in range(r):
+    for x in range(c):        
+        crnt = floor[y][x]    
+        
+        if crnt == '.' and flag[y][x] == False:
+            q = [[y,x]]
+            flag[y][x] = True
+            room = [[y,x]]
+            
+            while q:
+                
+               
+                y,x = q.pop(0)
+                for m in pos:
+                    ych = y+m[0]
+                    xch = x+m[1]
+                    if ych in range(r) and xch in range(c):
+                        if floor[ych][xch] == '.' and flag[ych][xch] == False:
+                            q.append([ych,xch])
+                            room.append([ych,xch])
+                            flag[ych][xch] = True
+            
+            rooms.append(room)
+        flag[y][x] = True
+
+
+rooms.sort(key=len)
+
+
+ans =[0,0]
+for i in reversed(rooms):
+    
+    if len(i) <= f:
+        ans[0] += 1
+        f -= len(i)
+
+    else:
+        ans[1] = f
+        f = 0
+        break
+
+rm = 'rooms,'
+if ans[0] == 1:
+    rm = 'room,'
+if f > 0:
+    ans[1] = f
+
+print ans[0],rm,ans[1],"square metre(s) left over"
