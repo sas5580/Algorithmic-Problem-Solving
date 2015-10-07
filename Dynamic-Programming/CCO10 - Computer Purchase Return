@@ -1,0 +1,41 @@
+// Language: C++
+// Problem Page: http://wcipeg.com/problem/ccc10s2p4
+
+// This problem, along with dynamic programming, involves the weighted knapsack concept as well
+
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <string.h>
+
+using namespace std;
+
+int n,t,dp[5][3000005],a,b,c,bdg;
+vector < pair <int,int> > prts[5];
+
+int q(int prt,int cst){
+    //printf("%d %d\n",prt,cst);
+    if (prt==t) return 0;
+    if (dp[prt][cst] != -1) return dp[prt][cst];
+
+    for (int i=0;i<prts[prt].size();i++){
+        int cs=prts[prt][i].first,vl=prts[prt][i].second;
+        if (cs+cst <= bdg) dp[prt][cst] = max(dp[prt][cst],vl+q(prt+1,cst+cs));
+    }
+
+    return dp[prt][cst];
+}
+
+int main(){
+    //freopen("DATA.txt","r",stdin);
+    scanf("%d%d",&t,&n);
+    for (int i=0;i<n;i++){
+        scanf("%d%d%d",&a,&b,&c);
+        prts[c-1].push_back(make_pair(a,b));
+    }
+    scanf("%d",&bdg);
+
+    memset(dp,-1,sizeof dp);
+
+    printf("%d",q(0,0));
+}
