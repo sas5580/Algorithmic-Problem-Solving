@@ -1,0 +1,42 @@
+// Language: C++
+// Problem Page: http://wcipeg.com/problem/ccc11s2p2
+
+// This problem also involes the use of Bitmask
+
+#include <iostream>
+#include <cstdio>
+#include <string.h>
+#include <vector>
+
+using namespace std;
+
+const int inf=-99999;
+
+int n,m,a,b,c,dp[30][262200];
+vector <pair <int,int> > g[20];
+
+int q(int curr,int flag){
+    int ans = inf;
+    if (curr==n-1) return 0;
+    if (dp[curr][flag] != inf) return dp[curr][flag];
+    for (int i=0;i<g[curr].size();i++){
+        int v=g[curr][i].first,ct=g[curr][i].second;
+        if (((flag>>v)&1)==0) ans=max(ans,ct+q(v,(flag+(1<<v))));
+    }
+    return dp[curr][flag]=ans;
+}
+
+int main(){
+    //freopen("DATA.txt","r",stdin);
+    scanf("%d%d",&n,&m);
+    for (int i=0;i<m;i++){
+        scanf("%d%d%d",&a,&b,&c);
+        g[a].push_back(make_pair(b,c));
+    }
+    for (int i=0;i<30;i++){
+        for (int j=0;j<262200;j++){
+            dp[i][j] = inf;
+        }
+    }
+    printf("%d",q(0,1));
+}
