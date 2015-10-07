@@ -1,0 +1,24 @@
+# Language: Python 2
+# Problem Page: http://wcipeg.com/problem/ccc08s3
+
+for fsad in xrange(input()):
+    r,c = input(),input()
+    g = [raw_input() for i in xrange(r)]
+    dp = [[-1 for i in xrange(c)] for i in xrange(r)]
+    dp[0][0]=1   
+    q = [[0,0]]
+    while q:
+        x,y = q.pop(0)        
+        if y-1>=0 and (g[y][x]=='+' or g[y][x]=='|') and g[y-1][x]!='*' and dp[y-1][x]==-1:
+            dp[y-1][x]=dp[y][x]+1            
+            q.append([x,y-1])
+        if y+1<r and (g[y][x]=='+' or g[y][x]=='|') and g[y+1][x]!='*' and dp[y+1][x]==-1:
+            dp[y+1][x]=dp[y][x]+1
+            q.append([x,y+1])
+        if x-1>=0 and (g[y][x]=='+' or g[y][x]=='-') and g[y][x-1]!='*' and dp[y][x-1]==-1:
+            dp[y][x-1]=dp[y][x]+1
+            q.append([x-1,y])
+        if x+1<c and (g[y][x]=='+' or g[y][x]=='-') and g[y][x+1]!='*' and dp[y][x+1]==-1:
+            dp[y][x+1]=dp[y][x]+1
+            q.append([x+1,y])       
+    print dp[-1][-1]
