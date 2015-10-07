@@ -1,0 +1,41 @@
+# Language: Python 2
+# Problem Page: 
+
+graph = {}
+for i in xrange(input()):
+    b = raw_input()   
+    graph[b] = []    
+    x = raw_input()
+    while not '</HTML>' in x:        
+        while '<A HREF="' in x:
+            if '<A HREF="' in x:
+                graph[b].append(x[x.find('<A HREF="')+9:x.find('">')])
+                print "Link from",b,'to',x[x.find('<A HREF="')+9:x.find('">')]
+                x = x[x.find('">')+2:]
+        x =raw_input()
+
+
+find = [[raw_input(),raw_input()]]
+x = raw_input()
+while x != "The End":
+    find.append([x,raw_input()])
+    x = raw_input()
+print
+
+for i in find:
+    q = [i[0]]
+    done = [i[0]]
+    t = True
+    while q:
+        n = q.pop(0)
+        for x in graph[n]:
+            if not x in done:
+                q.append(x)
+                done.append(x)
+        if i[1] in q:
+            t = False
+            ans = ''
+            break
+    if t:
+        ans = "'t"
+    print 'Can'+ans,"surf from",i[0],"to",i[1]
